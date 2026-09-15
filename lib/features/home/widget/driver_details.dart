@@ -4,8 +4,8 @@ import 'package:qr_code/core/app_styles/app_styles.dart';
 import 'package:qr_code/features/home/widget/theme.dart';
 
 class DriverDetails extends StatelessWidget {
-  const DriverDetails({super.key});
-
+  const DriverDetails({super.key,required this.userName});
+ final String userName;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -37,7 +37,7 @@ class DriverDetails extends StatelessWidget {
                   "انس محمد خطاب",
                   style: Theme.of(context).textTheme.bodyLarge,
                 ),
-                Text("الكود :12007",style: TextStyle(color: AppColors.borderColor),),
+                Text("الكود :$userName",style: TextStyle(color: AppColors.borderColor),),
               ],
             ),
             Spacer(),

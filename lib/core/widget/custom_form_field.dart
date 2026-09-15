@@ -3,11 +3,13 @@ import 'package:qr_code/core/app_colors/app_colors.dart';
 
 class CustomFormField extends StatelessWidget {
   final String hintText;
+  final TextEditingController? controller;
   final String? Function(String?)? validator;
 
   const CustomFormField({
     super.key,
     this.fillColor,
+    this.controller,
     this.borderSide,
     this.sufIcon,
     required this.hintText,
@@ -24,6 +26,7 @@ class CustomFormField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       validator: validator,
+      controller: controller,
       maxLines: lines,
       decoration: InputDecoration(
         fillColor: fillColor,

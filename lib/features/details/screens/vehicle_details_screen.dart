@@ -166,12 +166,6 @@ class _DetailsScreenState extends State<DetailsScreen> {
               ),
             ),
           ),
-
-          // Bottom Action Bar
-          VehicleActionBar(
-            onAllTripsPressed: _openTripsScreen,
-            onMaintenancePressed: _openMaintenanceScreen,
-          ),
         ],
       ),
     );

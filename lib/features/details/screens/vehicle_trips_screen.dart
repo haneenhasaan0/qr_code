@@ -7,10 +7,7 @@ import 'package:qr_code/features/details/widgets/vehicle_tab_bar.dart';
 class VehicleTripsScreen extends StatefulWidget {
   final int initialTabIndex;
 
-  const VehicleTripsScreen({
-    super.key,
-    this.initialTabIndex = 0,
-  });
+  const VehicleTripsScreen({super.key, this.initialTabIndex = 0});
 
   @override
   State<VehicleTripsScreen> createState() => _VehicleTripsScreenState();
@@ -33,7 +30,11 @@ class _VehicleTripsScreenState extends State<VehicleTripsScreen> {
         backgroundColor: const Color(0xFF0F172A),
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new, color: Colors.white, size: 20),
+          icon: const Icon(
+            Icons.arrow_back_ios_new,
+            color: Colors.white,
+            size: 20,
+          ),
           onPressed: () => Navigator.maybePop(context),
         ),
         title: Column(
@@ -55,7 +56,10 @@ class _VehicleTripsScreenState extends State<VehicleTripsScreen> {
                   backgroundColor: const Color(0xFFDCFCE7),
                   textColor: const Color(0xFF15803D),
                   fontSize: 10,
-                  padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 6,
+                    vertical: 2,
+                  ),
                 ),
               ],
             ),
@@ -92,15 +96,18 @@ class _VehicleTripsScreenState extends State<VehicleTripsScreen> {
             },
           ),
           Expanded(
-            child: ListView(
-              padding: const EdgeInsets.all(16),
-              children: [
-                const SizedBox(height: 12),
-                Center(
+            child: ListView.separated(
+              itemCount: 3,
+              separatorBuilder: (context, index) {
+                return SizedBox(height: 8);
+              },
+
+              itemBuilder: (context, index) {
+                return Center(
                   child: TextButton(
                     onPressed: () {},
                     child: const Text(
-                      'View All Trips',
+                      'كل الرحلات',
                       style: TextStyle(
                         color: Color(0xFF0D9488),
                         fontWeight: FontWeight.bold,
@@ -108,14 +115,14 @@ class _VehicleTripsScreenState extends State<VehicleTripsScreen> {
                       ),
                     ),
                   ),
-                ),
-                const SizedBox(height: 20),
-              ],
+                );
+              },
             ),
           ),
-          const VehicleActionBar(),
         ],
       ),
+
+      // const VehicleActionBar(),
     );
   }
 }

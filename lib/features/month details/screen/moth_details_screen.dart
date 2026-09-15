@@ -89,9 +89,9 @@ class MonthDetailsScreen extends StatelessWidget {
                     color: AppColors.lightGrayColor,
                   ),
                   tabs: [
+                    Text("ملخص الراتب"),
                     Text("تفاصيل النقلات"),
                     Text("البدلات والخصومات"),
-                    Text("السائق"),
                   ],
                 ),
               ),

@@ -8,16 +8,16 @@ import '../scanning/screen/scan_screen.dart';
 import '../vehicles/screen/vehicles_screen.dart';
 
 class MainScreen extends StatefulWidget {
-  const MainScreen({super.key});
-
+  const MainScreen({super.key,required this.userName});
+  final String userName;
   @override
   State<MainScreen> createState() => _MainScreenState();
 }
 
 class _MainScreenState extends State<MainScreen> {
   int currIndex = 0;
-  List<Widget> screens = [
-    const HomeScreen(),
+  late List<Widget> screens = [
+    HomeScreen(userName: widget.userName,),
     const NotificationScreen(),
     const ScanScreen(),
     const ProfileScreen(),
@@ -25,6 +25,7 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print(widget.userName);
     return Scaffold(
       body: screens[currIndex],
       bottomNavigationBar: BottomNavigationBar(

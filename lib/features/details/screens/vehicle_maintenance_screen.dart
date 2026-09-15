@@ -27,10 +27,14 @@ class _VehicleMaintenanceScreenState extends State<VehicleMaintenanceScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      backgroundColor: Theme
+          .of(context)
+          .scaffoldBackgroundColor,
 
       appBar: AppBar(
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        backgroundColor: Theme
+            .of(context)
+            .scaffoldBackgroundColor,
         elevation: 0,
         leading: IconButton(
           icon: const Icon(
@@ -68,8 +72,11 @@ class _VehicleMaintenanceScreenState extends State<VehicleMaintenanceScreen> {
             ),
             const SizedBox(height: 2),
             Text(
-              'VH-00217 • Volvo FH16',
-              style: Theme.of(context).textTheme.bodyLarge
+                'VH-00217 • Volvo FH16',
+                style: Theme
+                    .of(context)
+                    .textTheme
+                    .bodyLarge
             ),
           ],
         ),
@@ -82,33 +89,31 @@ class _VehicleMaintenanceScreenState extends State<VehicleMaintenanceScreen> {
       ),
       body: Column(
         children: [
-          VehicleTabBar(
-            selectedIndex: _selectedTab,
-            onTabSelected: (index) {
-              setState(() {
-                _selectedTab = index;
-              });
-              if (index != 1) {
-                Navigator.maybePop(context);
-              }
+        VehicleTabBar(
+        selectedIndex: _selectedTab,
+        onTabSelected: (index) {
+          setState(() {
+            _selectedTab = index;
+          });
+          if (index != 1) {
+            Navigator.maybePop(context);
+          }
+        },
+      ),
+      Expanded(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: ListView.separated(
+            itemCount: 3,
+            separatorBuilder: (BuildContext context, int index) {
+              return SizedBox(height: 12);
+            },
+            itemBuilder: (BuildContext context, int index) {
+              return PreventativeMaintenanceCard();
             },
           ),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: ListView.separated(
-                itemCount: 3,
-                separatorBuilder: (BuildContext context, int index) {
-                  return SizedBox(height: 12);
-                },
-                itemBuilder: (BuildContext context, int index) {
-                  return PreventativeMaintenanceCard();
-                },
-              ),
-            ),
-          ),
-          const VehicleActionBar()],
+        ),
       ),
-    );
+    ]));
   }
 }
