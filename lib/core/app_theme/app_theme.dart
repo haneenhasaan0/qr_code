@@ -5,6 +5,7 @@ import 'package:qr_code/core/app_styles/app_styles.dart';
 class AppTheme {
   static ThemeData lightMode = ThemeData(
     scaffoldBackgroundColor: AppColors.bgLight,
+    iconButtonTheme: IconButtonThemeData(style: IconButton.styleFrom(foregroundColor: AppColors.darkBlueColor)),
     bottomNavigationBarTheme: BottomNavigationBarThemeData(
       backgroundColor: AppColors.whiteColor,
       showUnselectedLabels: true,
@@ -27,7 +28,7 @@ class AppTheme {
       ),
     ),
     focusColor: AppColors.whiteColor,
-    appBarTheme: AppBarTheme(backgroundColor: Colors.black),
+    appBarTheme: AppBarTheme(backgroundColor: AppColors.bgLight),
     buttonTheme: ButtonThemeData(buttonColor: Colors.black),
     iconTheme: IconThemeData(color: AppColors.blueColor),
     elevatedButtonTheme: ElevatedButtonThemeData(
@@ -37,6 +38,7 @@ class AppTheme {
     ),
   );
   static ThemeData darkMode = ThemeData(
+    iconButtonTheme: IconButtonThemeData(style: IconButton.styleFrom(foregroundColor: AppColors.whiteColor)),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(backgroundColor: AppColors.purpleColor,
           foregroundColor:AppColors.whiteColor

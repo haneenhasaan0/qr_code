@@ -1,18 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
-import 'package:qr_code/core/app_colors/app_colors.dart';
-import 'package:qr_code/core/app_styles/app_styles.dart';
 import 'package:qr_code/core/widget/custom_form_field.dart';
 import 'package:qr_code/core/widget/password_form_field.dart';
-import 'package:qr_code/core/widget/snack_bar.dart';
-import 'package:qr_code/features/login/presentation/cubit/login_cubit/login_cubit.dart';
-import 'package:qr_code/features/login/presentation/cubit/login_state/login_state.dart';
+import '../cubit/login/login_cubit/login_cubit.dart';
 
 class SignInView extends StatelessWidget {
-  SignInView({super.key});
-
-
+  const SignInView({super.key});
   @override
   Widget build(BuildContext context) {
     var cubit = context.read<LoginCubit>();
@@ -36,7 +29,8 @@ class SignInView extends StatelessWidget {
                 child: Form(
                   key: cubit.formKey,
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       Text(
                         "تسجيل دخول",
@@ -61,7 +55,6 @@ class SignInView extends StatelessWidget {
                       SizedBox(height: 24),
                       Text("من فضلك ادخل كلمة المرور"),
                       SizedBox(height: 4),
-
                       PasswordTextFormField(
                         controller: cubit.password,
                         hintText: "Password",
@@ -90,5 +83,4 @@ class SignInView extends StatelessWidget {
               ),
            ));
           }
-
 }

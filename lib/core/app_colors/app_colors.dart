@@ -15,4 +15,5 @@ class AppColors {
   static Color yellowColor = Color(0xFFF59E0B);
   static Color bgLight = Color(0xFFFFFFFF);
   static Color whiteColor = Color(0xFFF5F5F2);
+  static Color textColor = Color(0xFF777384);
 }

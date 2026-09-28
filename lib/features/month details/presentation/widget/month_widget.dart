@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:qr_code/core/provider/app_theme_provider.dart';
 
-import '../../../core/app_colors/app_colors.dart';
-import '../../../core/app_styles/app_styles.dart';
+import '../../../../core/app_colors/app_colors.dart';
+import '../../../../core/app_styles/app_styles.dart';
 
 class MonthWidget extends StatelessWidget {
   const MonthWidget({super.key, required this.month});
+
   final String month;
 
   @override
   Widget build(BuildContext context) {
+    var themeProvider = Provider.of<AppThemeProvider>(context);
     return Container(
       decoration: BoxDecoration(
         boxShadow: [
@@ -20,7 +24,9 @@ class MonthWidget extends StatelessWidget {
           ),
         ],
         borderRadius: BorderRadius.circular(12),
-        color: AppColors.simpleBLueColor,
+        color: themeProvider.themeMode == ThemeMode.dark
+            ? AppColors.darkBlueColor
+            : AppColors.whiteColor,
       ),
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -28,10 +34,15 @@ class MonthWidget extends StatelessWidget {
           children: [
             Text(
               "كشف النقلات",
-              style: AppStyles.semiBold.copyWith(fontSize: 8),
+              style: AppStyles.semiBold.copyWith(fontSize: 8,color:
+             themeProvider.themeMode==ThemeMode.light? Colors.black:AppColors.whiteColor,
+              ),
             ),
             SizedBox(height: 8),
-            Text("$month 2026", style: AppStyles.bold),
+            Text("$month 2026", style: AppStyles.bold.copyWith(
+              color:
+              themeProvider.themeMode==ThemeMode.light? Colors.black:AppColors.whiteColor,
+            ),)
           ],
         ),
       ),

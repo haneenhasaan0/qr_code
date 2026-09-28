@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:qr_code/features/login/data/model/login_response.dart';
 import 'package:qr_code/features/login/data/repo/login_repo.dart';
-import 'package:qr_code/features/login/presentation/cubit/login_state/login_state.dart';
+import '../login_state/login_state.dart';
 
 class LoginCubit extends Cubit<LoginState>{
   LoginCubit():super(LoginInitState());
@@ -17,9 +17,8 @@ class LoginCubit extends Cubit<LoginState>{
       return request;
     }
     else{
-      emit(LoginFailState(msg: request?.message??''));
+      emit(LoginFailState(msg: 'يوجد خطأ في الكود او كلمة السر '));
     }
     return null;
   }
-
 }

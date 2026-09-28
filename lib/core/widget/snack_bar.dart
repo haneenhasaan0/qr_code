@@ -25,7 +25,7 @@ void showToast(
             size: 20,
           ),
           const Gap(10),
-          Text(errorMsg,style: AppStyles.semiBold,),
+          Text(errorMsg,style: AppStyles.semiBold.copyWith(color: Colors.white),),
         ],
       ),
     ),
@@ -35,7 +35,6 @@ void showToast(
 void showLoadingDialog(BuildContext context) {
   showDialog(
     context: context,
-    barrierDismissible: false,
     barrierColor: AppColors.purpleColor.withValues(alpha: 0.7),
     builder: (context) => Builder(
       builder: (context) {

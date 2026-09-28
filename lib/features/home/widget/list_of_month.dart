@@ -5,7 +5,8 @@ import 'package:qr_code/features/home/widget/month.dart';
 
 
 class ListOfMonth extends StatelessWidget {
-   ListOfMonth({super.key});
+   ListOfMonth({super.key,required this.name});
+   final String name;
   final List<String> months = [
     'يناير',
     'فبراير',
@@ -34,7 +35,12 @@ class ListOfMonth extends StatelessWidget {
         itemBuilder: (context, index) {
           return InkWell(
               onTap: (){
-                context.push("/monthDetails",extra: months[index]);
+                print("MONTH = ${months[index]}");
+                print("DRIVER NAME = $name");
+                context.push("/monthDetails",extra: {
+                "month":months[index],
+                "driverName":name
+                });
               },
               child: Month(text: months[index]));
         },

@@ -12,7 +12,8 @@ import '../../nakalty/screen/nakalty_screen.dart';
 import '../../odometer/screen/odometer_screen.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key,required this.userName});
+  const HomeScreen({super.key,required this.userName,required this.driverName});
+  final String driverName;
   final String userName;
 
   @override
@@ -44,7 +45,7 @@ class HomeScreen extends StatelessWidget {
                   style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontSize: 24),
                 ),
                 SizedBox(height: 8,),
-                DriverDetails(userName:userName),
+                DriverDetails(userName: userName,code: userName,),
                 SizedBox(height: 12,),
                 SingleChildScrollView(
                   scrollDirection: Axis.vertical,
@@ -64,7 +65,7 @@ class HomeScreen extends StatelessWidget {
                 ),
                 Expanded(
                   child: TabBarView(children: [
-                    ListOfMonth(),
+                    ListOfMonth(name: driverName,),
                     NakaltyScreen(),
                     OdometerScreen(),
                     MsgScreen(),
