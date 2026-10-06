@@ -15,10 +15,14 @@ class LoginRepo {
         data: {},
         header: {"Authorization": "Basic $credentials"},
       );
-      var data = LoginResponse.fromJson(response.data);
       if (response.statusCode == 200) {
-        SharedPref.setToken(data.accessToken);
-        return data;
+      var data = LoginResponse.fromJson(response.data);
+
+      SharedPref.setToken(data.accessToken);
+        SharedPref.setUser(data);
+        SharedPref.setLoggedIn(true);
+
+      return data;
       } else {
         return null;
       }

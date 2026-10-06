@@ -5,7 +5,9 @@ import 'package:qr_code/core/app_styles/app_styles.dart';
 class AppTheme {
   static ThemeData lightMode = ThemeData(
     scaffoldBackgroundColor: AppColors.bgLight,
-    iconButtonTheme: IconButtonThemeData(style: IconButton.styleFrom(foregroundColor: AppColors.darkBlueColor)),
+    iconButtonTheme: IconButtonThemeData(
+      style: IconButton.styleFrom(foregroundColor: AppColors.darkBlueColor),
+    ),
     bottomNavigationBarTheme: BottomNavigationBarThemeData(
       backgroundColor: AppColors.whiteColor,
       showUnselectedLabels: true,
@@ -13,9 +15,17 @@ class AppTheme {
       type: BottomNavigationBarType.fixed,
       selectedItemColor: AppColors.purpleColor,
       unselectedItemColor: Color(0xFF475569),
-      selectedLabelStyle: AppStyles.semiBold.copyWith(color: AppColors.purpleColor),
+      selectedLabelStyle: AppStyles.semiBold.copyWith(
+        color: AppColors.purpleColor,
+      ),
       selectedIconTheme: IconThemeData(color: AppColors.purpleColor),
       unselectedIconTheme: IconThemeData(color: Color(0xFF475569)),
+    ),
+    dialogTheme: DialogThemeData(
+      backgroundColor: AppColors.bgLight,
+      titleTextStyle: AppStyles.medium14.copyWith(
+        color: AppColors.darkBlueColor,
+      ),
     ),
     textTheme: TextTheme(
       bodyLarge: AppStyles.bold.copyWith(color: AppColors.simpleBLueColor),
@@ -32,16 +42,27 @@ class AppTheme {
     buttonTheme: ButtonThemeData(buttonColor: Colors.black),
     iconTheme: IconThemeData(color: AppColors.blueColor),
     elevatedButtonTheme: ElevatedButtonThemeData(
-      style: ElevatedButton.styleFrom(backgroundColor: AppColors.purpleColor,
-      foregroundColor:AppColors.whiteColor
+      style: ElevatedButton.styleFrom(
+        backgroundColor: AppColors.purpleColor,
+        foregroundColor: AppColors.whiteColor,
       ),
     ),
   );
   static ThemeData darkMode = ThemeData(
-    iconButtonTheme: IconButtonThemeData(style: IconButton.styleFrom(foregroundColor: AppColors.whiteColor)),
+    dialogTheme: DialogThemeData(
+
+      backgroundColor: AppColors.darkBlueColor,
+      titleTextStyle: AppStyles.medium14.copyWith(
+        color: AppColors.bgLight,
+      ),
+    ),
+    iconButtonTheme: IconButtonThemeData(
+      style: IconButton.styleFrom(foregroundColor: AppColors.whiteColor),
+    ),
     elevatedButtonTheme: ElevatedButtonThemeData(
-      style: ElevatedButton.styleFrom(backgroundColor: AppColors.purpleColor,
-          foregroundColor:AppColors.whiteColor
+      style: ElevatedButton.styleFrom(
+        backgroundColor: AppColors.purpleColor,
+        foregroundColor: AppColors.whiteColor,
       ),
     ),
     focusColor: AppColors.simpleBLueColor,
@@ -51,7 +72,9 @@ class AppTheme {
       type: BottomNavigationBarType.fixed,
       selectedItemColor: AppColors.purpleColor,
       unselectedItemColor: Color(0xFF475569),
-      selectedLabelStyle: AppStyles.semiBold.copyWith(color: AppColors.purpleColor),
+      selectedLabelStyle: AppStyles.semiBold.copyWith(
+        color: AppColors.purpleColor,
+      ),
       selectedIconTheme: IconThemeData(color: AppColors.purpleColor),
       unselectedIconTheme: IconThemeData(color: Color(0xFF475569)),
     ),

@@ -16,12 +16,12 @@ class SignInView extends StatelessWidget {
               decoration: BoxDecoration(
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black,
+                    color: Colors.black.withOpacity(0.3),
                     offset: Offset(0, 3),
                     blurRadius: 16,
                   ),
                 ],
-                color: Colors.white,
+                color: Colors.white.withOpacity(0.15),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Padding(
@@ -43,7 +43,7 @@ class SignInView extends StatelessWidget {
                       SizedBox(height: 4),
                       CustomFormField(
                         controller: cubit.id,
-                        fillColor: Colors.white,
+                        fillColor: Colors.white.withOpacity(0.15),
                         hintText: "ID",
                         validator: (value) {
                           if (value == null || value.isEmpty) {

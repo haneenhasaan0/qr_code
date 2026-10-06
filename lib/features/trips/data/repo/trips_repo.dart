@@ -10,6 +10,8 @@ class TripsRepo {
 
    static Future<TripsResponse?> getTRipDetails(String? start,String? end)async{
       try{
+        print("token : ${SharedPref.getToken()}");
+
       var response=await ApiProvider.get(endPoint: ApiConstants.tripDetails,
       queryParam: {
         "StartDate_Search": start,
@@ -20,17 +22,22 @@ class TripsRepo {
         "VehicleId_Search": 0,
         "lang": "en",
         },
-        header: {"authorization":"Bearer ${SharedPref.getToken()}"}
+        header: {"Authorization":"Bearer ${SharedPref.getToken()}"}
       );
+      
       if(response.statusCode==200){
+        print("response status code : ${response.statusCode}");
         return TripsResponse.fromJson(response.data);
   }
       else{
         return null;
   }
   }
-      on DioException catch(e){
-        log(e.toString());
+      on DioException catch (e) {
+        log('STATUS CODE: ${e.response?.statusCode}');
+        log('URL: ${e.requestOptions.uri}');
+        log('HEADERS: ${e.requestOptions.headers}');
+        log('RESPONSE: ${e.response?.data}');
       }
       return null;
   }

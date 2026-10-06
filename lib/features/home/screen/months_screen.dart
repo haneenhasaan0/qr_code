@@ -13,9 +13,8 @@ import '../../odometer/screen/odometer_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key,required this.userName,required this.driverName});
-  final String driverName;
   final String userName;
-
+  final String driverName;
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -23,7 +22,8 @@ class HomeScreen extends StatelessWidget {
       child: Scaffold(
         body: Center(
           child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8.0),
+            padding: const EdgeInsets
+                .symmetric(vertical: 8.0),
             child: Column(
               children: [
                 Container(
@@ -65,7 +65,7 @@ class HomeScreen extends StatelessWidget {
                 ),
                 Expanded(
                   child: TabBarView(children: [
-                    ListOfMonth(name: driverName,),
+                    ListOfMonth(driverName: driverName,),
                     NakaltyScreen(),
                     OdometerScreen(),
                     MsgScreen(),

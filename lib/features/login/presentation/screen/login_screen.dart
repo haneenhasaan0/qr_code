@@ -4,11 +4,15 @@ import 'package:go_router/go_router.dart';
 import 'package:qr_code/core/app_colors/app_colors.dart';
 import 'package:qr_code/core/app_images/app_images.dart';
 import 'package:qr_code/core/app_styles/app_styles.dart';
+import 'package:qr_code/core/services/local/shared_pref.dart';
+import 'package:qr_code/features/login/presentation/widget/alert_action.dart';
+import 'package:qr_code/features/login/presentation/widget/sign_in_screen.dart';
 import 'package:qr_code/features/login/presentation/widget/signin_view.dart';
 
 import '../../../../core/widget/snack_bar.dart';
 import '../cubit/login/login_cubit/login_cubit.dart';
 import '../cubit/login/login_state/login_state.dart';
+import '../widget/signIn_with_finger.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -21,97 +25,69 @@ class LoginScreen extends StatelessWidget {
           if (state is LoginLoadingState) {
             showLoadingDialog(context);
           }
-
           if (state is LoginSuccessState) {
             context.pop();
-            context.go(
-              '/main',
-              extra: <String, dynamic>{
-                'userName': state.data.userName,
-                'code': state.data.userCode,
+            final enableBiometric = await showDialog<bool>(
+              context: context,
+              builder: (context) {
+                return AlertAction();
               },
             );
+
+            if (enableBiometric == true) {
+              final biometricService = BiometricService();
+              final canUseBiometric = await biometricService.canUseBioMetric();
+              if (!canUseBiometric) {
+                showToast(
+                  context,
+                  'البصمة غير متاحة على هذا الجهاز',
+                  StateType.error,
+                );
+              } else {
+                final authenticated = await biometricService.authenticate();
+
+                if (authenticated) {
+                  await SharedPref.setBiometricEnabled(true);
+                  showToast(
+                    context,
+                    'تم تفعيل الدخول بالبصمة بنجاح',
+                    StateType.success,
+                  );
+                  context.go(
+                  '/main',
+                    extra: <String, dynamic>{
+                      'userName': state.data.userName,
+                      'code': state.data.userCode,
+                    },
+                  );
+                } else {
+                  showToast(
+                    context,
+                    'لم يتم تفعيل الدخول بالبصمة',
+                    StateType.error,
+                  );
+                }
+              }
+            }
+            else {
+              context.go(
+                '/main',
+                extra: <String, dynamic>{
+                  'userName': state.data.userName,
+                  'code': state.data.userCode,
+                },
+              );
+            }
           }
-
-          if (state is LoginFailState) {
-            Navigator.pop(context);
-
-            showToast(context, state.msg, StateType.error);
+          if(state is LoginSecondState){
+            context.go('main', extra: <String, dynamic>{
+              'userName': state.data.userName,
+              'code': state.data.userCode,
+            });
           }
         },
         builder: (context, state) {
-          return SingleChildScrollView(
-            child: Column(
-              children: [
-                SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.88,
-                  child: Stack(
-                    children: [
-                      Image.asset(
-                        "assets/images/hero-section.png",
-                        width: double.infinity,
-                        height: MediaQuery.of(context).size.height * 0.45,
-                        fit: BoxFit.cover,
-                      ),
-
-                      Positioned(
-                        top: MediaQuery.of(context).size.height * 0.28,
-                        left: 12,
-                        right: 12,
-                        child: SignInView(),
-                      ),
-                    ],
-                  ),
-                ),
-
-                const SizedBox(height: 12),
-
-                Row(
-                  children: [
-                    Expanded(
-                      child: Divider(
-                        color: AppColors.borderColor,
-                        endIndent: 16,
-                        indent: 16,
-                      ),
-                    ),
-
-                    Text(
-                      "أو",
-                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: AppColors.borderColor,
-                      ),
-                    ),
-
-                    Expanded(
-                      child: Divider(
-                        color: AppColors.borderColor,
-                        endIndent: 16,
-                        indent: 16,
-                      ),
-                    ),
-                  ],
-                ),
-
-                const SizedBox(height: 12),
-
-                Text(
-                  "دخل بصمتك",
-                  style: Theme.of(context).textTheme.bodyMedium,
-                ),
-
-                const SizedBox(height: 12),
-
-                Image.asset(
-                  "assets/images/finger_print.png",
-                  width: 55,
-                  height: 55,
-                ),
-
-                const SizedBox(height: 20),
-              ],
-            ),
-          );
+          return SignInScreen();
         },
       ),
     );

@@ -1,23 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:qr_code/core/app_colors/app_colors.dart';
-import 'package:qr_code/core/app_images/app_images.dart';
-import 'package:qr_code/features/home/screen/months_screen.dart';
+import 'package:qr_code/features/licence/screen/profile_screen.dart';
+
+import '../home/screen/months_screen.dart';
 import '../login/presentation/cubit/user_name_cubit/user_name_cubit/user_name_cubit.dart';
 import '../login/presentation/cubit/user_name_cubit/user_name_state/user_name_state.dart';
 import '../notifications/screen/notification.dart';
-import '../profile/screen/profile_screen.dart';
 import '../scanning/screen/scan_screen.dart';
-import '../vehicles/screen/vehicles_screen.dart';
 
 class MainScreen extends StatefulWidget {
-  const MainScreen({
-    super.key,
-    required this.userName,
-    required this.driverName,
-  });
+  const MainScreen({super.key, required this.userName});
 
-  final String driverName;
   final String userName;
 
   @override
@@ -26,71 +19,77 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   int currIndex = 0;
-  late List<Widget> screens = [
-    HomeScreen(driverName: widget.driverName, userName: widget.userName),
-    const NotificationScreen(),
-    const ScanScreen(),
-    const ProfileScreen(),
-  ];
 
   @override
   Widget build(BuildContext context) {
-    print(widget.userName);
+    print('USERNAME = "${widget.userName}"');
+
     return BlocProvider(
       create: (context) => UserNameCubit()..getDriverName(widget.userName),
 
       child: BlocBuilder<UserNameCubit, UserNameState>(
         builder: (context, state) {
+          // Loading
           if (state is UserNameLoading) {
             return const Scaffold(
               body: Center(child: CircularProgressIndicator()),
             );
           }
 
+          // Error
           if (state is UserNameFail) {
             return Scaffold(body: Center(child: Text(state.msg)));
           }
 
+          // Success
           if (state is UserNameSuccess) {
+            // اسم السواق الحقيقي القادم من API
             final driverName = state.name;
 
+            print('USERNAME = "${widget.userName}"');
+            print('DRIVER NAME = "$driverName"');
             final screens = [
               HomeScreen(userName: widget.userName, driverName: driverName),
-              ScanScreen(),
-              NotificationScreen(),
-              ProfileScreen()
+              const ScanScreen(),
+              const NotificationScreen(),
+              const LicenceScreen(),
             ];
+
             return Scaffold(
               body: screens[currIndex],
+
               bottomNavigationBar: BottomNavigationBar(
                 currentIndex: currIndex,
+
                 onTap: (index) {
                   setState(() {
                     currIndex = index;
                   });
                 },
-                items: [
+
+                items: const [
                   BottomNavigationBarItem(
                     icon: Icon(Icons.calendar_today),
                     label: 'الشهور',
-                  ),
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.not_listed_location_outlined),
-                    label: 'الاشعارات',
                   ),
                   BottomNavigationBarItem(
                     icon: Icon(Icons.qr_code),
                     label: 'مسح رمز العربية',
                   ),
                   BottomNavigationBarItem(
-                    icon: Icon(Icons.person),
-                    label: 'الحساب',
+                    icon: Icon(Icons.notifications_outlined),
+                    label: 'الاشعارات',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.local_police_outlined),
+                    label: 'الرخصة',
                   ),
                 ],
               ),
             );
           }
-          return SizedBox();
+
+          return const SizedBox();
         },
       ),
     );

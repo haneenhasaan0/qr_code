@@ -46,10 +46,19 @@ dependencies:
   dio: ^5.11.1
   gap: ^3.0.1
   intl: ^0.20.2
+  local_auth: ^3.0.2
+  lottie: ^3.6.1
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/logo.png"
+
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_launcher_icons: ^0.14.4
+
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -73,6 +82,7 @@ flutter:
   assets:
     - assets/images/
     - assets/fonts/
+    - assets/animation/
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 

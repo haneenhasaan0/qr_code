@@ -37,6 +37,8 @@ class MonthDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('MONTH DETAILS DRIVER NAME = "$driverName"');
+    print('MONTH DETAILS MONTH = "$month"');
     final monthNumber = getMonthNumber(month);
 
     final year = DateTime.now().year;

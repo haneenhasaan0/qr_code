@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:qr_code/core/app_colors/app_colors.dart';
 import 'package:qr_code/core/app_styles/app_styles.dart';
+import 'package:qr_code/core/services/local/shared_pref.dart';
 import 'package:qr_code/features/home/widget/theme.dart';
 import 'package:qr_code/features/login/presentation/widget/user_name_widget.dart';
 
@@ -47,7 +48,9 @@ class DriverDetails extends StatelessWidget {
                 ThemeIcon(),
                 SizedBox(width: 4,), InkWell(
                   onTap: (){
-                    context.go('/');
+                    SharedPref.setLoggedIn(false);
+
+                    context.go('/login');
                   },
                   child: Container(
                     decoration: BoxDecoration(

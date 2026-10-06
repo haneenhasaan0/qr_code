@@ -7,10 +7,10 @@ import 'package:qr_code/core/services/api_provider/api_provider.dart';
 import 'package:qr_code/core/services/local/shared_pref.dart';
 import 'core/app_routes/app_routes.dart';
 
-void main() {
+Future<void> main() async{
   WidgetsFlutterBinding.ensureInitialized();
   ApiProvider.init();
-  SharedPref.sharedInit();
+  await SharedPref.sharedInit();
   runApp(
     ChangeNotifierProvider(
       create: (context) => AppThemeProvider(),

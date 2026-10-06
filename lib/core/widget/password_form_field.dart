@@ -25,7 +25,7 @@ class _PasswordTextFormFieldState extends State<PasswordTextFormField> {
       obscureText: obscureText,
       decoration: InputDecoration(
         border:OutlineInputBorder(
-          borderSide: BorderSide(color: Color(0xFFE2E8F0)),
+          borderSide: BorderSide(color: Color(0xFFE2E8F0),),
           borderRadius: BorderRadius.circular(8),
         ),
         errorBorder: OutlineInputBorder(
@@ -45,7 +45,7 @@ class _PasswordTextFormFieldState extends State<PasswordTextFormField> {
           borderRadius: BorderRadius.circular(8),
         ),
         hintText: widget.hintText,
-        hintStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppColors.lightGrayColor),
+        hintStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppColors.whiteColor),
         suffixIconColor: AppColors.lightGrayColor,
         suffixIcon: IconButton(
           onPressed: () {
