@@ -4,7 +4,8 @@ import 'package:dio/dio.dart';
 import 'package:qr_code/core/services/api_provider/api_constants.dart';
 import 'package:qr_code/core/services/api_provider/api_provider.dart';
 import 'package:qr_code/core/services/local/shared_pref.dart';
-import 'package:qr_code/features/trips/data/model/trips_response.dart';
+
+import '../model/trips_response.dart';
 
 class TripsRepo {
 

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:qr_code/core/app_colors/app_colors.dart';
-import 'package:qr_code/core/app_styles/app_styles.dart';
 
 class Sha7ena extends StatelessWidget {
   const Sha7ena({super.key});

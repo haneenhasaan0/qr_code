@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:qr_code/core/app_styles/app_styles.dart';
 import 'package:qr_code/core/widget/custom_form_field.dart';
 import 'package:qr_code/core/widget/password_form_field.dart';
 import '../cubit/login/login_cubit/login_cubit.dart';
@@ -11,8 +12,7 @@ class SignInView extends StatelessWidget {
     var cubit = context.read<LoginCubit>();
     return Padding(
       padding: const EdgeInsets.all(12.0),
-      child:
-           Container(
+      child: Container(
               decoration: BoxDecoration(
                 boxShadow: [
                   BoxShadow(
@@ -39,7 +39,7 @@ class SignInView extends StatelessWidget {
                         ).textTheme.bodyLarge?.copyWith(fontSize: 20),
                       ),
                       SizedBox(height: 12),
-                      Text("من فضلك ادخل ال id"),
+                      Text("من فضلك ادخل ال id",style: AppStyles.semiBold.copyWith(color:Colors.black),),
                       SizedBox(height: 4),
                       CustomFormField(
                         controller: cubit.id,
@@ -53,7 +53,7 @@ class SignInView extends StatelessWidget {
                         },
                       ),
                       SizedBox(height: 24),
-                      Text("من فضلك ادخل كلمة المرور"),
+                      Text("من فضلك ادخل كلمة المرور",style: AppStyles.semiBold.copyWith(color:Colors.black),),
                       SizedBox(height: 4),
                       PasswordTextFormField(
                         controller: cubit.password,

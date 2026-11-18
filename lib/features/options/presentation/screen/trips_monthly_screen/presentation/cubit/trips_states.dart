@@ -1,4 +1,4 @@
-import 'package:qr_code/features/trips/data/model/trips_response.dart';
+import 'package:qr_code/features/options/presentation/screen/trips_monthly_screen/data/model/trips_response.dart';
 
 class TripsStates {}
 class TripsInitState extends TripsStates{}

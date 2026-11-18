@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:qr_code/core/provider/app_theme_provider.dart';
 
 import '../../../../core/app_colors/app_colors.dart';
 import '../../../../core/app_styles/app_styles.dart';
@@ -12,39 +10,31 @@ class MonthWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var themeProvider = Provider.of<AppThemeProvider>(context);
     return Container(
+      padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.25),
-            blurRadius: 13,
-            spreadRadius: 3,
-            offset: const Offset(0, 5),
-          ),
-        ],
-        borderRadius: BorderRadius.circular(12),
-        color: themeProvider.themeMode == ThemeMode.dark
-            ? AppColors.darkBlueColor
-            : AppColors.whiteColor,
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            Text(
-              "كشف النقلات",
-              style: AppStyles.semiBold.copyWith(fontSize: 8,color:
-             themeProvider.themeMode==ThemeMode.light? Colors.black:AppColors.whiteColor,
-              ),
-            ),
-            SizedBox(height: 8),
-            Text("$month 2026", style: AppStyles.bold.copyWith(
-              color:
-              themeProvider.themeMode==ThemeMode.light? Colors.black:AppColors.whiteColor,
-            ),)
-          ],
+        gradient: LinearGradient(
+          colors: [AppColors.purpleColor, const Color(0xFFEC4899)],
+          begin: Alignment.topRight,
+          end: Alignment.bottomLeft,
         ),
+        borderRadius: BorderRadius.circular(24),
+        boxShadow: [BoxShadow(color: AppColors.purpleColor.withValues(alpha: 0.4), blurRadius: 16, offset: const Offset(0, 6))],
+      ),
+      child: Row(
+        children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text("كشف النقلات", style: AppStyles.semiBold.copyWith(fontSize: 13, color: Colors.white70)),
+                const SizedBox(height: 6),
+                Text("$month ${DateTime.now().year}", style: AppStyles.bold.copyWith(fontSize: 26)),
+              ],
+            ),
+          ),
+          const Icon(Icons.calendar_month_rounded, size: 56, color: Colors.white38),
+        ],
       ),
     );
   }

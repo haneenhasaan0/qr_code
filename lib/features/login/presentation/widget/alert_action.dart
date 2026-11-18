@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:qr_code/core/services/local/shared_pref.dart';
 
 class AlertAction extends StatelessWidget {
   const AlertAction({super.key});

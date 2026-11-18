@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
+import 'package:lottie/lottie.dart';
 import 'package:qr_code/core/app_styles/app_styles.dart';
-import 'package:qr_code/core/provider/app_theme_provider.dart';
-import 'package:qr_code/core/widget/snack_bar.dart';
 import 'package:qr_code/features/options/presentation/screen/trips_monthly_screen/presentation/widget/show_more.dart';
 
 import '../../../../../../../core/app_colors/app_colors.dart';
 import '../cubit/trips_cubit.dart';
 import '../cubit/trips_states.dart';
 
-class TripDetailsContainer extends StatefulWidget {
-  const TripDetailsContainer({
+class TripsDetailsScreen extends StatefulWidget {
+  const TripsDetailsScreen({
     super.key,
     required this.start,
     required this.end,
@@ -24,394 +22,166 @@ class TripDetailsContainer extends StatefulWidget {
   final String driverName;
 
   @override
-  State<TripDetailsContainer> createState() => _TripDetailsContainerState();
+  State<TripsDetailsScreen> createState() => _TripsDetailsScreenState();
 }
 
-bool more = false;
-class _TripDetailsContainerState extends State<TripDetailsContainer> {
-  final Set<int> isExpand={};
+class _TripsDetailsScreenState extends State<TripsDetailsScreen> {
+  final Set<int> isExpand = {};
+
+  // خانة معلومة: أيقونة + عنوان صغير + القيمة
+  Widget _info(IconData icon, String label, String value, Color textColor) => Expanded(
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Icon(icon, size: 18, color: const Color(0xFF2563EB)),
+            const SizedBox(width: 6),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(label, style: AppStyles.semiBold.copyWith(fontSize: 11, color: AppColors.borderColor)),
+                  Text(value.isEmpty ? '-' : value,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: AppStyles.semiBold.copyWith(fontSize: 13, color: textColor)),
+                ],
+              ),
+            ),
+          ],
+        ),
+      );
+
+  Widget _row(Widget a, Widget b) => Padding(
+        padding: const EdgeInsets.only(bottom: 14),
+        child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [a, const SizedBox(width: 10), b]),
+      );
 
   @override
   Widget build(BuildContext context) {
-    var themeProvider = Provider.of<AppThemeProvider>(context);
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final textColor = isDark ? AppColors.whiteColor : AppColors.darkBlueColor;
 
-    return BlocProvider(
-      create: (context) {
-        return TripsCubit()
-          ..start = DateFormat('yyyy-MM-dd').format(widget.start)
-          ..end = DateFormat('yyyy-MM-dd').format(widget.end)
-          ..getTripDetails(widget.driverName);
-      },
-      child: BlocConsumer<TripsCubit, TripsStates>(
-        listener:(context,state){
-          if (state is TripsLoadingState) {
-            return showLoadingDialog(context);
-          }
+    return Scaffold(
+      appBar: AppBar(title: const Text('تفاصيل الرحلات')),
+      body: BlocProvider(
+        create: (context) {
+          return TripsCubit()
+            ..start = DateFormat('yyyy-MM-dd').format(widget.start)
+            ..end = DateFormat('yyyy-MM-dd').format(widget.end)
+            ..getTripDetails(widget.driverName);
         },
-        builder: (context, state) {
-          print("STATE = ${state.runtimeType}");
-
-          if (state is TripsEmptyState) {
-            return SizedBox(
-              height: 80,
-              child:  Text(
-                textAlign: TextAlign.center,
-                "لا توجد رحلات في هذا الشهر",
-                style: AppStyles.bold.copyWith(
-                  color: themeProvider.themeMode == ThemeMode.dark
-                      ? AppColors.whiteColor
-                      : AppColors.darkBlueColor,
-
-                ),
-              ),
-            );
-          }
-          if (state is TripsSuccessState) {
-            final trips = state.tripsResponse;
-            final startDate = state.tripsResponse?.first.startDate;
-            print("SUCCESS");
-            print("TRIPS COUNT = ${state.tripsResponse?.length??0}");
-
-            return ListView.separated(
-              physics: NeverScrollableScrollPhysics(),
-              itemCount: trips?.length??0,
-              separatorBuilder: (context, index) {
-                return SizedBox(height: 6);
-              },
-              itemBuilder: (context, index) {
-                bool expand=isExpand.contains(trips?[index].tripId);
-
-                return Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: themeProvider.themeMode == ThemeMode.dark
-                          ? AppColors.darkBlueColor
-                          : AppColors.whiteColor,
-                      borderRadius: BorderRadius.circular(12),
-                      boxShadow: [
-                        BoxShadow(
-                          color: themeProvider.themeMode == ThemeMode.dark
-                              ? Colors.black
-                              : AppColors.whiteColor,
-                          spreadRadius: 2,
-                          blurRadius: 10,
-                          offset: Offset(0, 2),
-                        ),
-                      ],
+        child: BlocBuilder<TripsCubit, TripsStates>(
+          builder: (context, state) {
+            if (state is TripsLoadingState) {
+              return Center(child: Lottie.asset("assets/animation/truck-material-onsite.lottie", options: LottieOptions()));
+            }
+            if (state is TripsEmptyState) {
+              return Center(
+                child: Text("لا توجد رحلات في هذا الشهر", style: AppStyles.bold.copyWith(color: textColor)),
+              );
+            }
+            if (state is TripsSuccessState) {
+              final trips = state.tripsResponse ?? [];
+              return ListView.builder(
+                padding: const EdgeInsets.symmetric(vertical: 8),
+                itemCount: trips.length,
+                itemBuilder: (context, index) {
+                  final trip = trips[index];
+                  final expand = isExpand.contains(trip.tripId);
+                  final startDate = trip.startDate;
+                  // ظهور تدريجي: كل رحلة تطلع من تحت بعد اللي قبلها
+                  return TweenAnimationBuilder<double>(
+                    tween: Tween(begin: 0, end: 1),
+                    duration: Duration(milliseconds: 400 + (index > 6 ? 6 : index) * 100),
+                    curve: Curves.easeOutCubic,
+                    builder: (_, v, child) => Opacity(
+                      opacity: v,
+                      child: Transform.translate(offset: Offset(0, 30 * (1 - v)), child: child),
                     ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      margin: const EdgeInsets.fromLTRB(12, 6, 12, 6),
+                      clipBehavior: Clip.antiAlias,
+                      decoration: BoxDecoration(
+                        color: isDark ? AppColors.simpleBLueColor : Colors.white,
+                        borderRadius: BorderRadius.circular(20),
+                        boxShadow: [BoxShadow(color: const Color(0xFF2563EB).withValues(alpha: 0.18), blurRadius: 14, offset: const Offset(0, 5))],
+                      ),
                       child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
-                          Row(
-                            children: [
-                              Text(
-                                "كود الرحلة ${trips?[index].tripId}",
-                                style: AppStyles.bold.copyWith(
-                                  fontSize: 16,
-                                  color:
-                                  themeProvider.themeMode == ThemeMode.dark
-                                      ? AppColors.whiteColor
-                                      : Colors.black,
-                                ),
-                              ),
-                              Spacer(),
-                              Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(12),
-                                  color: Color(0xFFE7F6EF),
-                                ),
-                                child: Padding(
-                                  padding: EdgeInsets.all(8),
-                                  child: Text(
-                                    trips?[index].statusGroupAr??"",
-                                    style: AppStyles.extraBold32.copyWith(
-                                      color: AppColors.darkGreenColor,
-                                      fontSize: 16,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(height: 8),
-                          Text(
-                            "اسم الرحلة ${trips?[index].tripName}",
-                            style: AppStyles.bold.copyWith(
-                              fontSize: 16,
-                              color: themeProvider.themeMode == ThemeMode.dark
-                                  ? AppColors.whiteColor
-                                  : AppColors.darkBlueColor,
+                          // الشريط الملوّن: كود الرحلة والحالة
+                          Container(
+                            padding: const EdgeInsets.all(12),
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(colors: [const Color(0xFF38BDF8), const Color(0xFF2563EB)]),
                             ),
-                          ),
-                          Text(
-                            trips?[index].tripStatusAr??"",
-                            style: AppStyles.semiBold.copyWith(
-                              fontSize: 12,
-                              color: AppColors.textColor,
-                            ),
-                          ),
-                          SizedBox(height: 4),
-
-                          if (expand) ...[
-                            Divider(
-                              color: AppColors.borderColor,
-                              endIndent: 10,
-                              indent: 10,
-                            ),
-                            SizedBox(height: 8),
-
-                            Text(
-                              "قطاع الاعمال",
-                              style: AppStyles.semiBold.copyWith(
-                                fontSize: 16,
-                                color: AppColors.textColor,
-                              ),
-                            ),
-                            Text(
-                              state.tripsResponse?.first.businessSectorNameAr??"",
-                              style: AppStyles.semiBold.copyWith(
-                                fontSize: 16,
-                                color: themeProvider.themeMode == ThemeMode.dark
-                                    ? AppColors.whiteColor
-                                    : AppColors.darkBlueColor,
-                              ),
-                            ),
-                            const SizedBox(height: 16),
-                            Text(
-                              "رقم أمر البيع",
-                              style: AppStyles.semiBold.copyWith(
-                                fontSize: 16,
-                                color: AppColors.textColor,
-                              ),
-                            ),
-                            Text(
-                              trips?[index].salesOrderId ?? "",
-                              style: AppStyles.semiBold.copyWith(
-                                fontSize: 16,
-                                color: themeProvider.themeMode == ThemeMode.dark
-                                    ? AppColors.whiteColor
-                                    : AppColors.darkBlueColor,
-                              ),
-                            ),
-                            const SizedBox(height: 16),
-
-                            Text(
-                              "اسم المشروع",
-                              style: AppStyles.semiBold.copyWith(
-                                fontSize: 16,
-                                color: AppColors.textColor,
-                              ),
-                            ),
-
-                            Text(
-                              trips?[index].projectNameEn ?? "",
-                              style: AppStyles.semiBold.copyWith(
-                                fontSize: 16,
-                                color: themeProvider.themeMode == ThemeMode.dark
-                                    ? AppColors.whiteColor
-                                    : AppColors.darkBlueColor,
-                              ),
-                            ),
-
-                            const SizedBox(height: 16),
-                            Text(
-                              "كود المشروع",
-                              style: AppStyles.semiBold.copyWith(
-                                fontSize: 16,
-                                color: AppColors.textColor,
-                              ),
-                            ),
-
-                            Text(
-                              trips?[index].projectIdStr??"",
-                              style: AppStyles.semiBold.copyWith(
-                                fontSize: 16,
-                                color: themeProvider.themeMode == ThemeMode.dark
-                                    ? AppColors.whiteColor
-                                    : AppColors.darkBlueColor,
-                              ),
-                            ),
-                            const SizedBox(height: 16),
-                            Text(
-                              "اسم السائق",
-                              style: AppStyles.semiBold.copyWith(
-                                fontSize: 16,
-                                color: AppColors.textColor,
-                              ),
-                            ),
-
-                            Text(
-                              trips?[index].driverName ?? "",
-                              style: AppStyles.semiBold.copyWith(
-                                fontSize: 16,
-                                color: themeProvider.themeMode == ThemeMode.dark
-                                    ? AppColors.whiteColor
-                                    : AppColors.darkBlueColor,
-                              ),
-                            ),
-                            const SizedBox(height: 16),
-                            Text(
-                              "رقم لوحة المركبة",
-                              style: AppStyles.semiBold.copyWith(
-                                fontSize: 16,
-                                color: AppColors.textColor,
-                              ),
-                            ),
-
-                            Text(
-                              state.tripsResponse?.first.vehiclePlateNumber??'',
-                              style: AppStyles.semiBold.copyWith(
-                                fontSize: 16,
-                                color: themeProvider.themeMode == ThemeMode.dark
-                                    ? AppColors.whiteColor
-                                    : AppColors.darkBlueColor,
-                              ),
-                            ),
-                            const SizedBox(height: 16),
-
-                            Row(
+                            child: Row(
                               children: [
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-
-                                  children: [
-                                    Text(
-                                      "اعتماد DV",
-                                      style: AppStyles.semiBold.copyWith(
-                                        fontSize: 16,
-                                        color: AppColors.textColor,
-                                      ),
-                                    ),
-
-                                    Text(
-                                      trips?[index].isDvApproved == true
-                                          ? "نعم"
-                                          : "لا",
-                                      style: AppStyles.semiBold.copyWith(
-                                        fontSize: 16,
-                                        color: AppColors.darkGreenColor,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                Spacer(),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-
-                                  children: [
-                                    Text(
-                                      "اعتماد المندوب",
-                                      style: AppStyles.semiBold.copyWith(
-                                        fontSize: 16,
-                                        color: AppColors.textColor,
-                                      ),
-                                    ),
-
-                                    Text(
-                                      trips?[index].isAccApproved == true
-                                          ? "نعم"
-                                          : "لا",
-
-                                      style: AppStyles.semiBold.copyWith(
-                                        fontSize: 16,
-                                        color: AppColors.darkGreenColor,
-                                      ),
-                                    ),
-                                  ],
+                                const Icon(Icons.local_shipping_rounded, color: Colors.white, size: 22),
+                                const SizedBox(width: 8),
+                                Expanded(child: Text("كود الرحلة ${trip.tripId}", style: AppStyles.bold.copyWith(fontSize: 16))),
+                                Container(
+                                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                                  decoration: BoxDecoration(color: Colors.white.withValues(alpha: 0.25), borderRadius: BorderRadius.circular(12)),
+                                  child: Text(trip.statusGroupAr ?? "", style: AppStyles.bold.copyWith(fontSize: 12)),
                                 ),
                               ],
                             ),
-                            const SizedBox(height: 16),
-
-                            Row(
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(14),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Column(
-                                  children: [
-                                    Text(
-                                      "أنشأ بواسطة",
-                                      style: AppStyles.semiBold.copyWith(
-                                        fontSize: 16,
-                                        color: AppColors.textColor,
-                                      ),
-                                    ),
-
-                                    Text(
-                                      trips![index].createdBy.length >= 10
-                                          ? trips[index].createdBy.substring(
-                                        0,
-                                        10,
-                                      )
-                                          : trips[index].createdBy,
-
-                                      style: AppStyles.semiBold.copyWith(
-                                        fontSize: 16,
-                                        color:
-                                        themeProvider.themeMode ==
-                                            ThemeMode.dark
-                                            ? AppColors.whiteColor
-                                            : AppColors.darkBlueColor,
-                                      ),
-                                    ),
-                                  ],
+                                Text("اسم الرحلة ${trip.tripName}", style: AppStyles.bold.copyWith(fontSize: 15, color: textColor)),
+                                const SizedBox(height: 2),
+                                Text(trip.tripStatusAr ?? "", style: AppStyles.semiBold.copyWith(fontSize: 12, color: AppColors.textColor)),
+                                // فتح وقفل التفاصيل بحركة سلسة
+                                AnimatedSize(
+                                  duration: const Duration(milliseconds: 250),
+                                  curve: Curves.easeInOut,
+                                  alignment: Alignment.topCenter,
+                                  child: expand
+                                      ? Padding(
+                                          padding: const EdgeInsets.only(top: 14),
+                                          child: Column(
+                                            children: [
+                                              Divider(color: AppColors.borderColor.withValues(alpha: 0.4)),
+                                              const SizedBox(height: 8),
+                                              _row(_info(Icons.business_center_outlined, "قطاع الأعمال", trip.businessSectorNameAr ?? "", textColor),
+                                                  _info(Icons.receipt_long_outlined, "رقم أمر البيع", trip.salesOrderId ?? "", textColor)),
+                                              _row(_info(Icons.folder_outlined, "اسم المشروع", trip.projectNameEn ?? "", textColor),
+                                                  _info(Icons.tag, "كود المشروع", trip.projectIdStr ?? "", textColor)),
+                                              _row(_info(Icons.person_outline, "اسم السائق", trip.driverName ?? "", textColor),
+                                                  _info(Icons.pin_outlined, "رقم لوحة المركبة", trip.vehiclePlateNumber ?? "", textColor)),
+                                              _row(_info(Icons.verified_outlined, "اعتماد DV", trip.isDvApproved == true ? "نعم" : "لا", textColor),
+                                                  _info(Icons.how_to_reg_outlined, "اعتماد المندوب", trip.isAccApproved == true ? "نعم" : "لا", textColor)),
+                                              _row(_info(Icons.edit_note, "أنشأ بواسطة", trip.createdBy.length >= 10 ? trip.createdBy.substring(0, 10) : trip.createdBy, textColor),
+                                                  _info(Icons.event_outlined, "تاريخ البدء", startDate != null ? DateFormat('dd/MM/yyyy - HH:mm').format(startDate) : "", textColor)),
+                                            ],
+                                          ),
+                                        )
+                                      : const SizedBox(width: double.infinity),
                                 ),
-                                Spacer(),
-                                Column(
-                                  children: [
-                                    Text(
-                                      "تاريخ البدء",
-                                      style: AppStyles.semiBold.copyWith(
-                                        fontSize: 16,
-                                        color: AppColors.textColor,
-                                      ),
-                                    ),
-
-                                    Text(
-                                      startDate != null
-                                          ? DateFormat(
-                                        'dd/MM/yyyy - HH:mm',
-                                      ).format(startDate)
-                                          : "",
-
-                                      style: AppStyles.semiBold.copyWith(
-                                        fontSize: 16,
-                                        color:
-                                        themeProvider.themeMode ==
-                                            ThemeMode.dark
-                                            ? AppColors.whiteColor
-                                            : AppColors.darkBlueColor,
-                                      ),
-                                    ),
-                                  ],
+                                const SizedBox(height: 8),
+                                InkWell(
+                                  borderRadius: BorderRadius.circular(20),
+                                  onTap: () => setState(() => expand ? isExpand.remove(trip.tripId) : isExpand.add(trip.tripId)),
+                                  child: ShowMore(more: expand),
                                 ),
                               ],
                             ),
-                          ],
-                          InkWell(
-                            onTap: () {
-                              setState(() {
-                                if(expand) {
-                                  isExpand.remove(trips![index].tripId);
-                                }
-                                else{
-                                  isExpand.add(trips![index].tripId);
-                                }
-                              });
-                            },
-                            child: ShowMore(more: expand,),
                           ),
                         ],
                       ),
                     ),
-                  ),
-                );
-              },
-            );
-          }
-          return SizedBox();
-        },
+                  );
+                },
+              );
+            }
+            return const SizedBox();
+          },
+        ),
       ),
     );
   }

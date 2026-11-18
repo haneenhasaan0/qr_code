@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class SharedPref {
   static late SharedPreferences sharedPref;
   static String kToken='kToken';
+  static String refToken='refToken';
   static String kUserName = 'kFleetStaffName';
   static String kUserInfo = 'kUserInfo';
   static String kBiometricEnabled = 'kBiometricEnabled';
@@ -26,6 +27,19 @@ class SharedPref {
       setString(kUserInfo, userString);
     }
   }
+
+  static void setRefreshToken(String? key){
+    if(key==null||key.isEmpty){
+      return;
+    }
+    setString(refToken, key);
+
+  }
+
+  static String? getRefToken(){
+    return getString(refToken)??"";
+  }
+
   static  LoginResponse? getUser() {
     var userJson = getString(kUserInfo);
     if (userJson==null||userJson.isEmpty) {

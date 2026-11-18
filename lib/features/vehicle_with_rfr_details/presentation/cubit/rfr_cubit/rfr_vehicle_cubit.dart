@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:qr_code/features/vehicle_details/data/model/rfr_vehicle_details.dart';
-import 'package:qr_code/features/vehicle_details/data/repo/rfr_vehicle_repo.dart';
-import 'package:qr_code/features/vehicle_details/presentation/cubit/rfr_cubit/rfr_vehicle_state.dart';
+import 'package:qr_code/features/vehicle_with_rfr_details/presentation/cubit/rfr_cubit/rfr_vehicle_state.dart';
+
+import '../../../data/repo/rfr_vehicle_repo.dart';
 
 class RfrVehicleCubit extends Cubit<RfrVehicleState> {
   RfrVehicleCubit() : super(RfrVehicleInitState());

@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:qr_code/features/trips/data/model/trips_response.dart';
-import 'package:qr_code/features/trips/data/repo/trips_repo.dart';
 
+import '../../../options/presentation/screen/trips_monthly_screen/data/model/trips_response.dart';
+import '../../../options/presentation/screen/trips_monthly_screen/data/repo/trips_repo.dart';
 import 'trips_no_state.dart';
 
 class TRipsNoCubit extends Cubit<TripsNoStates>{

@@ -1,4 +1,3 @@
-import '../../../login/data/model/driver_name_response.dart';
 
 class TripsNoStates {}
 class TripsNoInitState extends TripsNoStates{}

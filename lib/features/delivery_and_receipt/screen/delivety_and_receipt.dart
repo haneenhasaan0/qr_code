@@ -6,7 +6,8 @@ class DeliveryAndReceipt extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    // scroll عشان المحتوى ميعملش overflow على الشاشات الصغيرة
+    return SingleChildScrollView(
       padding: const EdgeInsets.all(24.0),
       child: DeliveryAndReceiptWidget(),
     );

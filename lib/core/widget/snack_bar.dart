@@ -8,9 +8,9 @@ enum StateType { error, success }
 
 void showToast(
     BuildContext context,
-    String errorMsg, [
+String errorMsg, [
       StateType type = StateType.error,
-    ]) {
+    ]){
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
       behavior: SnackBarBehavior.floating,
@@ -25,7 +25,12 @@ void showToast(
             size: 20,
           ),
           const Gap(10),
-          Text(errorMsg,style: AppStyles.semiBold.copyWith(color: Colors.white),),
+          Expanded(
+            child: Text(
+              errorMsg,
+              style: AppStyles.semiBold.copyWith(color: Colors.white),
+            ),
+          ),
         ],
       ),
     ),

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:qr_code/features/details/widgets/maintenance_history_item.dart';
 import 'package:qr_code/features/details/widgets/preventative_maintenance_card.dart';
 import 'package:qr_code/features/details/widgets/status_badge.dart';
-import 'package:qr_code/features/details/widgets/vehicle_action_bar.dart';
 import 'package:qr_code/features/details/widgets/vehicle_tab_bar.dart';
 
 class VehicleMaintenanceScreen extends StatefulWidget {
@@ -32,9 +30,6 @@ class _VehicleMaintenanceScreenState extends State<VehicleMaintenanceScreen> {
           .scaffoldBackgroundColor,
 
       appBar: AppBar(
-        backgroundColor: Theme
-            .of(context)
-            .scaffoldBackgroundColor,
         elevation: 0,
         leading: IconButton(
           icon: const Icon(

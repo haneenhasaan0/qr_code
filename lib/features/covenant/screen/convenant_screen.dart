@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:qr_code/core/app_styles/app_styles.dart';
 import 'package:qr_code/features/covenant/widget/coveneant_widget.dart';
 
 class CovenantScreen extends StatelessWidget {

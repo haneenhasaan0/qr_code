@@ -1,7 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:qr_code/core/services/local/shared_pref.dart';
 import 'package:qr_code/features/login/data/model/driver_name_response.dart';
-import 'package:qr_code/features/login/data/model/login_response.dart';
 import 'package:qr_code/features/login/data/repo/driver_name_repo.dart';
 import 'package:qr_code/features/login/presentation/cubit/user_name_cubit/user_name_state/user_name_state.dart';
 
@@ -34,7 +32,7 @@ class UserNameCubit extends Cubit<UserNameState> {
       emit(UserNameSuccess(name: driver.fleetStaffName ?? ""));
 
       return response;
-    } on Exception catch (e) {
+    } on Exception {
       emit(UserNameFail(msg: "حدث خطأ أثناء الحصول على بيانات السائق"));
 
       return null;

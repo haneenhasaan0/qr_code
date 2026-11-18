@@ -17,7 +17,10 @@ class CreateRfrRequest {
         required this.businessSectorId,
         required this.trailerId,
         required this.rfrVehicleStatusId,
+        required this.rfrEquipmentStatusId,
         required this.equipmentWorkingHrs,
+        required this.locationControlRoom,
+        this.description = "",
     });
 
     int vehicleKm;
@@ -29,7 +32,10 @@ class CreateRfrRequest {
     int businessSectorId;
     int trailerId;
     int rfrVehicleStatusId;
+    int rfrEquipmentStatusId;
     int equipmentWorkingHrs;
+    String locationControlRoom;
+    String description;
 
     factory CreateRfrRequest.fromJson(Map<dynamic, dynamic> json) => CreateRfrRequest(
         vehicleKm: json["VehicleKm"],
@@ -41,7 +47,10 @@ class CreateRfrRequest {
         businessSectorId: json["BusinessSectorId"],
         trailerId: json["TrailerId"],
         rfrVehicleStatusId: json["RFRVehicleStatusId"],
+        rfrEquipmentStatusId: json["RFREquipmentStatusId"],
         equipmentWorkingHrs: json["EquipmentWorkingHrs"],
+        locationControlRoom: json["LocationControlRoom"] ?? "",
+        description: json["Description"] ?? "",
     );
 
     Map<dynamic, dynamic> toJson() => {
@@ -54,6 +63,9 @@ class CreateRfrRequest {
         "BusinessSectorId": businessSectorId,
         "TrailerId": trailerId,
         "RFRVehicleStatusId": rfrVehicleStatusId,
+        "RFREquipmentStatusId": rfrEquipmentStatusId,
         "EquipmentWorkingHrs": equipmentWorkingHrs,
+        "LocationControlRoom": locationControlRoom,
+        "Description": description,
     };
 }

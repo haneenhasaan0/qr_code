@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:qr_code/core/app_colors/app_colors.dart';
 import 'package:qr_code/core/app_styles/app_styles.dart';
-import 'package:qr_code/features/delivery_and_receipt/widget/sha7ena.dart';
-import 'package:qr_code/features/delivery_and_receipt/widget/wensh.dart';
 
 class CovenantWidget extends StatelessWidget {
   const CovenantWidget({super.key});

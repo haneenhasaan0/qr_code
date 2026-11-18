@@ -1,10 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:qr_code/features/vehicle_details/data/model/vehicle_details_response.dart';
-import 'package:qr_code/features/vehicle_details/presentation/cubit/vehicle_details_cubit/vehicle_details_state.dart';
+import 'package:qr_code/features/vehicle_with_rfr_details/data/model/vehicle_details_response.dart';
+import 'package:qr_code/features/vehicle_with_rfr_details/presentation/cubit/vehicle_details_cubit/vehicle_details_state.dart';
 import '../../../data/repo/rfr_vehicle_repo.dart' ;
 import '../../../data/repo/vehicle_details_repo.dart';
-
 class VehicleDetailsCubit extends Cubit<VehicleDetailState> {
   VehicleDetailsCubit() : super(VehicleDetailInitState());
   final TextEditingController id = TextEditingController();

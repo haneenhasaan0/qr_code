@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:qr_code/core/services/local/shared_pref.dart';
 import 'package:qr_code/features/login/data/model/login_response.dart';
 import 'package:qr_code/features/login/data/repo/login_repo.dart';
 import '../login_state/login_state.dart';

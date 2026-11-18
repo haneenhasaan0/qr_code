@@ -1,4 +1,3 @@
-import '../../../../data/model/driver_name_response.dart';
 
 class UserNameState {}
 class UserNameInit extends UserNameState{}

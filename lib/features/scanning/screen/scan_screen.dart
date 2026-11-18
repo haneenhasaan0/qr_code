@@ -1,30 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
-import 'package:qr_code/features/scanning/widget/bottom_sheet.dart';
+import 'package:qr_code/features/scanning/widget/enter_number_manually.dart';
 
 class ScanScreen extends StatelessWidget {
-  const ScanScreen({super.key});
+  ScanScreen({super.key});
+
+  final TextEditingController controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).focusColor,
-        leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: Icon(
-            Icons.cancel_outlined,
-            size: 24,
-            color: Theme.of(context).focusColor,
-          ),
-        ),
-        title: Text(
-          'مسح رموز الاستجابة',
-          style: Theme.of(context).textTheme.bodyLarge,
-        ),
+        title: const Text('مسح رموز الاستجابة'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -47,8 +35,6 @@ class ScanScreen extends StatelessWidget {
               ),
 
               const SizedBox(height: 40),
-
-              // Scanner Area
               SizedBox(
                 width: 280,
                 height: 280,
@@ -74,43 +60,24 @@ class ScanScreen extends StatelessWidget {
               SizedBox(
                 width: double.infinity,
                 height: 50,
-                child: ElevatedButton(
+                child: ElevatedButton(style: ElevatedButton.styleFrom(backgroundColor: Theme.of(context).focusColor),
                   onPressed: () {
-                    context.push("/details");
+                    context.push("/rfr_details");
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Icon(Icons.qr_code_scanner),
+                      Icon(Icons.qr_code_scanner,color: Theme.of(context).cardColor,),
                       SizedBox(width: 8),
-                      const Text('مسح رموز الاستجابة'),
+                      Text('مسح رموز الاستجابة',
+                        style: Theme.of(context).textTheme.bodyLarge,
+                      ),
                     ],
                   ),
                 ),
               ),
-              SizedBox(height: 8),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () {
-                    showModalBottomSheet(
-                      context: context,
-                      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                      builder: (context) {
-                        return const CustomBottomSheet();
-                      },
-                    );
-                  },
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Icon(Icons.qr_code_scanner),
-                      SizedBox(width: 8),
-                      const Text('احدث فحوصات'),
-                    ],
-                  ),
-                ),
-              ),
+              SizedBox(height: 8,),
+              EnterNumberManually(controller: controller)
             ],
           ),
         ),

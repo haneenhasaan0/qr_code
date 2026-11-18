@@ -2,14 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_code/core/app_colors/app_colors.dart';
 import 'package:qr_code/core/provider/app_theme_provider.dart';
-import 'package:qr_code/features/details/widgets/preventative_maintenance_card.dart';
 import 'package:qr_code/features/details/widgets/specifications_grid.dart';
 import 'package:qr_code/features/details/widgets/vehicle_tab_bar.dart';
-import 'package:qr_code/features/vehicle_details/presentation/screens/vehicle_maintenance_screen.dart';
-import 'package:qr_code/features/vehicle_details/presentation/screens/vehicle_trips_screen.dart';
-import 'package:qr_code/features/vehicle_details/widget/case1.dart';
-
 import '../../widget/case0.dart';
+import '../../widget/case1.dart';
 import '../widget/vehicle_header_card.dart';
 
 class RfrVehicleScreen extends StatefulWidget {
@@ -43,22 +39,12 @@ class _RfrVehicleScreenState extends State<RfrVehicleScreen> {
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back,
-            color: themeProvider.themeMode == ThemeMode.light
-                ? AppColors.simpleBLueColor
-                : AppColors.whiteColor,
-          ),
+          icon: const Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () => Navigator.maybePop(context),
         ),
-        title: Text(
-          'تفاصيل العربية',
-          style: Theme.of(context).textTheme.bodyLarge,
-        ),
-        centerTitle: true,
+        title: const Text('تفاصيل العربية'),
       ),
       body: Column(
         children: [

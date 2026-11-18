@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:qr_code/core/app_colors/app_colors.dart';
 import 'package:qr_code/core/app_styles/app_styles.dart';
-import 'package:qr_code/core/provider/app_theme_provider.dart';
 
 class ShowMore extends StatelessWidget {
   const ShowMore({super.key,required this.more});
@@ -10,12 +8,13 @@ class ShowMore extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AnimatedSize(
-      duration: Duration(microseconds: 200),
+      duration: Duration(milliseconds: 200),
       curve: Curves.easeInOut,
       child: Container(
         alignment: Alignment.center,
+        padding: const EdgeInsets.symmetric(vertical: 8),
         decoration: BoxDecoration(
-          color: AppColors.textColor,
+          color: const Color(0xFF2563EB),
           borderRadius: BorderRadius.circular(20)
         ),
         child: Row(

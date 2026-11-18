@@ -4,17 +4,17 @@ import 'package:qr_code/core/app_colors/app_colors.dart';
 class VehicleTabBar extends StatelessWidget {
   final int selectedIndex;
   final ValueChanged<int> onTabSelected;
-  final List<String> tabs;
-
+  final bool hasRfr;
   const VehicleTabBar({
     super.key,
     required this.selectedIndex,
     required this.onTabSelected,
-    this.tabs = const ['الرحلات', 'الصيانة'],
+    required this.hasRfr,
   });
 
   @override
   Widget build(BuildContext context) {
+    final tabs=hasRfr?["الرحلات",'الصيانة']:["الرحلات",'الصيانة',"انشاء بلاغ"];
     return Container(
       decoration:  BoxDecoration(
         color: Theme.of(context).scaffoldBackgroundColor,

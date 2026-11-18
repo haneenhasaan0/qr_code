@@ -1,5 +1,5 @@
-import 'package:qr_code/features/vehicle_details/data/model/vehicle_details_response.dart';
-import 'package:qr_code/features/vehicle_details/data/model/rfr_vehicle_details.dart'
+import 'package:qr_code/features/vehicle_with_rfr_details/data/model/vehicle_details_response.dart';
+import 'package:qr_code/features/vehicle_with_rfr_details/data/model/rfr_vehicle_details.dart'
 as rfr;
 class VehicleDetailState {}
 

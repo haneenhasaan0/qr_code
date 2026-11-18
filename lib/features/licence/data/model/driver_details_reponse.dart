@@ -4,7 +4,6 @@ import 'dart:convert';
 
 DriverDetailsReponse driverDetailsReponseFromJson(String str) => DriverDetailsReponse.fromJson(json.decode(str));
 
-String driverDetailsReponseToJson(DriverDetailsReponse data) => json.encode(data.toJson());
 
 class DriverDetailsReponse {
     DriverDetailsReponse({
@@ -19,19 +18,23 @@ class DriverDetailsReponse {
     List<Datum> data;
     String message;
 
-    factory DriverDetailsReponse.fromJson(Map<dynamic, dynamic> json) => DriverDetailsReponse(
-        allRecords: json["allRecords"],
-        accessToken: json["access_token"],
-        data: List<Datum>.from(json["data"].map((x) => Datum.fromJson(x))),
-        message: json["message"],
+    factory DriverDetailsReponse.fromJson(
+        Map<dynamic, dynamic> json,
+        ) => DriverDetailsReponse(
+        allRecords: int.tryParse(
+            json['allRecords']?.toString() ?? '',
+        ) ??
+            0,
+        accessToken: json['access_token']?.toString() ?? '',
+        data: (json['data'] as List? ?? [])
+            .map(
+                (x) => Datum.fromJson(
+                Map<dynamic, dynamic>.from(x as Map),
+            ),
+        )
+            .toList(),
+        message: json['message']?.toString() ?? '',
     );
-
-    Map<dynamic, dynamic> toJson() => {
-        "allRecords": allRecords,
-        "access_token": accessToken,
-        "data": List<dynamic>.from(data.map((x) => x.toJson())),
-        "message": message,
-    };
 }
 
 class Datum {
@@ -150,64 +153,181 @@ class Datum {
     DateTime? terminatedDate;
     String? userEmail;
     String? roleCodeJson;
-
     factory Datum.fromJson(Map<dynamic, dynamic> json) => Datum(
-        licenseNo: json["licenseNo"],
-        insurancePolicyNo: json["insurancePolicyNo"],
-        licenseDegreeId: json["licenseDegreeId"],
-        isTerminated: json["isTerminated"],
-        modifiedAt: DateTime.parse(json["modifiedAt"]),
-        departmentId: json["departmentId"],
-        employeeNo: json["employeeNo"],
-        fleetStaffId: json["fleetStaffId"],
-        licenseIssueDate: DateTime.parse(json["licenseIssueDate"]),
-        issuerId: json["issuerId"],
-        createdAt: DateTime.parse(json["createdAt"]),
-        companyNameAr: companyNameValues.map[json["companyNameAr"]]!,
-        garageName: garageNameValues.map[json["garageName"]]!,
-        businessSectorId: json["businessSectorId"],
-        companyNameEn: companyNameValues.map[json["companyNameEn"]]!,
-        driverId: json["driverId"],
-        businessSectorNameEn: businessSectorNameEnValues.map[json["businessSectorNameEn"]]!,
-        insuranceCompanyId: json["insuranceCompanyId"],
-        preferredLanguage: preferredLanguageValues.map[json["preferredLanguage"]]!,
-        garageId: json["garageId"],
-        businessSectorNameAr: businessSectorNameArValues.map[json["businessSectorNameAr"]]!,
-        userCode: json["userCode"],
-        isDeleted: json["isDeleted"],
-        modifiedBy: json["modifiedBy"],
-        hasInternationalLicense: json["hasInternationalLicense"],
-        address: json["address"],
-        insuranceTypeId: json["insuranceTypeId"],
-        fullName: json["fullName"],
-        typeNameAr: typeNameValues.map[json["typeNameAr"]]!,
-        issuerNameAr: issuerNameValues.map[json["issuerNameAr"]]!,
-        mobileNo: json["mobileNo"],
-        userName: json["userName"],
-        birthDate: json["birthDate"] == null ? null : DateTime.parse(json["birthDate"]),
-        driverVehicleTypeJson: json["driverVehicleTypeJson"],
-        typeNameEn: typeNameValues.map[json["typeNameEn"]]!,
-        licenseExpiryDate: json["licenseExpiryDate"] == null ? null : DateTime.parse(json["licenseExpiryDate"]),
-        issuerNameEn: issuerNameValues.map[json["issuerNameEn"]]!,
-        nationalId: json["nationalId"],
-        departmentNameEn: departmentNameEnValues.map[json["departmentNameEn"]]!,
-        degreeNameEn: degreeNameValues.map[json["degreeNameEn"]]!,
-        createdBy: json["createdBy"],
-        departmentNameAr: departmentNameArValues.map[json["departmentNameAr"]]!,
-        degreeNameAr: degreeNameValues.map[json["degreeNameAr"]]!,
-        mobileNo2: json["mobileNo2"],
-        notes: json["notes"],
-        cardIdExpiryDate: json["cardIDExpiryDate"] == null ? null : DateTime.parse(json["cardIDExpiryDate"]),
-        trainingEndDate: json["trainingEndDate"] == null ? null : DateTime.parse(json["trainingEndDate"]),
-        sustainableMehwarPermitDate: json["sustainableMehwarPermitDate"] == null ? null : DateTime.parse(json["sustainableMehwarPermitDate"]),
-        dateAppointment: json["dateAppointment"] == null ? null : DateTime.parse(json["dateAppointment"]),
-        missionHeaderId: json["missionHeaderId"],
-        driverAttachementJson: json["driverAttachementJson"],
-        appointmentTypeId: json["appointmentTypeId"],
-        missionCode: missionCodeValues.map[json["missionCode"]]!,
-        terminatedDate: json["terminatedDate"] == null ? null : DateTime.parse(json["terminatedDate"]),
-        userEmail: json["userEmail"],
-        roleCodeJson: json["roleCodeJson"],
+        licenseNo: json["licenseNo"]?.toString() ?? "",
+        insurancePolicyNo: json["insurancePolicyNo"]?.toString(),
+
+        licenseDegreeId: int.tryParse(
+            json["licenseDegreeId"]?.toString() ?? "",
+        ) ??
+            0,
+
+        isTerminated: json["isTerminated"] is bool
+            ? json["isTerminated"] as bool
+            : false,
+
+        modifiedAt: DateTime.tryParse(
+            json["modifiedAt"]?.toString() ?? "",
+        ) ??
+            DateTime(2000),
+
+        departmentId: int.tryParse(
+            json["departmentId"]?.toString() ?? "",
+        ),
+
+        employeeNo: json["employeeNo"]?.toString() ?? "",
+
+        fleetStaffId: int.tryParse(
+            json["fleetStaffId"]?.toString() ?? "",
+        ) ??
+            0,
+
+        licenseIssueDate: DateTime.tryParse(
+            json["licenseIssueDate"]?.toString() ?? "",
+        ) ??
+            DateTime(2000),
+
+        issuerId: int.tryParse(
+            json["issuerId"]?.toString() ?? "",
+        ) ??
+            0,
+
+        createdAt: DateTime.tryParse(
+            json["createdAt"]?.toString() ?? "",
+        ) ??
+            DateTime(2000),
+
+        companyNameAr: companyNameValues.map[json["companyNameAr"]],
+        garageName: garageNameValues.map[json["garageName"]],
+
+        businessSectorId: int.tryParse(
+            json["businessSectorId"]?.toString() ?? "",
+        ),
+
+        companyNameEn: companyNameValues.map[json["companyNameEn"]],
+
+        driverId: int.tryParse(
+            json["driverId"]?.toString() ?? "",
+        ) ??
+            0,
+
+        businessSectorNameEn:
+        businessSectorNameEnValues.map[json["businessSectorNameEn"]],
+
+        insuranceCompanyId: int.tryParse(
+            json["insuranceCompanyId"]?.toString() ?? "",
+        ),
+
+        preferredLanguage:
+        preferredLanguageValues.map[json["preferredLanguage"]] ??
+            PreferredLanguage.EMPTY,
+
+        garageId: int.tryParse(
+            json["garageId"]?.toString() ?? "",
+        ),
+
+        businessSectorNameAr:
+        businessSectorNameArValues.map[json["businessSectorNameAr"]],
+
+        userCode: int.tryParse(
+            json["userCode"]?.toString() ?? "",
+        ),
+
+        isDeleted: json["isDeleted"] is bool
+            ? json["isDeleted"] as bool
+            : false,
+
+        modifiedBy: json["modifiedBy"]?.toString() ?? "",
+
+        hasInternationalLicense:
+        json["hasInternationalLicense"] is bool
+            ? json["hasInternationalLicense"] as bool
+            : false,
+
+        address: json["address"]?.toString(),
+
+        insuranceTypeId: int.tryParse(
+            json["insuranceTypeId"]?.toString() ?? "",
+        ),
+
+        fullName: json["fullName"]?.toString() ?? "",
+
+        typeNameAr: typeNameValues.map[json["typeNameAr"]],
+
+        issuerNameAr:
+        issuerNameValues.map[json["issuerNameAr"]] ?? IssuerName.DEFAULT,
+
+        mobileNo: json["mobileNo"]?.toString() ?? "",
+
+        userName: json["userName"]?.toString(),
+
+        driverVehicleTypeJson: json["driverVehicleTypeJson"]?.toString(),
+
+        typeNameEn: typeNameValues.map[json["typeNameEn"]],
+
+        licenseExpiryDate: DateTime.tryParse(
+            json["licenseExpiryDate"]?.toString() ?? "",
+        ),
+
+        issuerNameEn:
+        issuerNameValues.map[json["issuerNameEn"]] ?? IssuerName.DEFAULT,
+
+        nationalId: json["nationalId"]?.toString(),
+
+        departmentNameEn:
+        departmentNameEnValues.map[json["departmentNameEn"]],
+
+        degreeNameEn:
+        degreeNameValues.map[json["degreeNameEn"]] ?? DegreeName.PRIVATE,
+
+        createdBy: json["createdBy"]?.toString() ?? "",
+
+        departmentNameAr:
+        departmentNameArValues.map[json["departmentNameAr"]],
+
+        degreeNameAr:
+        degreeNameValues.map[json["degreeNameAr"]] ?? DegreeName.PRIVATE,
+
+        mobileNo2: json["mobileNo2"]?.toString(),
+
+        notes: json["notes"]?.toString(),
+
+        cardIdExpiryDate: DateTime.tryParse(
+            json["cardIDExpiryDate"]?.toString() ?? "",
+        ),
+
+        trainingEndDate: DateTime.tryParse(
+            json["trainingEndDate"]?.toString() ?? "",
+        ),
+
+        sustainableMehwarPermitDate: DateTime.tryParse(
+            json["sustainableMehwarPermitDate"]?.toString() ?? "",
+        ),
+
+        dateAppointment: DateTime.tryParse(
+            json["dateAppointment"]?.toString() ?? "",
+        ),
+
+        missionHeaderId: int.tryParse(
+            json["missionHeaderId"]?.toString() ?? "",
+        ),
+
+        driverAttachementJson:
+        json["driverAttachementJson"]?.toString(),
+
+        appointmentTypeId: int.tryParse(
+            json["appointmentTypeId"]?.toString() ?? "",
+        ),
+
+        missionCode: missionCodeValues.map[json["missionCode"]],
+
+        terminatedDate: DateTime.tryParse(
+            json["terminatedDate"]?.toString() ?? "",
+        ),
+
+        userEmail: json["userEmail"]?.toString(),
+
+        roleCodeJson: json["roleCodeJson"]?.toString(),
     );
 
     Map<dynamic, dynamic> toJson() => {
@@ -243,8 +363,7 @@ class Datum {
         "issuerNameAr": issuerNameValues.reverse[issuerNameAr],
         "mobileNo": mobileNo,
         "userName": userName,
-        "birthDate": "${birthDate!.year.toString().padLeft(4, '0')}-${birthDate!.month.toString().padLeft(2, '0')}-${birthDate!.day.toString().padLeft(2, '0')}",
-        "driverVehicleTypeJson": driverVehicleTypeJson,
+        "birthDate": birthDate?.toIso8601String(),
         "typeNameEn": typeNameValues.reverse[typeNameEn],
         "licenseExpiryDate": "${licenseExpiryDate!.year.toString().padLeft(4, '0')}-${licenseExpiryDate!.month.toString().padLeft(2, '0')}-${licenseExpiryDate!.day.toString().padLeft(2, '0')}",
         "issuerNameEn": issuerNameValues.reverse[issuerNameEn],

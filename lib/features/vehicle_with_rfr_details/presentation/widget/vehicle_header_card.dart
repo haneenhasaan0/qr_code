@@ -6,8 +6,8 @@ import 'package:qr_code/core/app_styles/app_styles.dart';
 import 'package:qr_code/core/widget/snack_bar.dart';
 import 'package:qr_code/features/home/widget/theme.dart';
 import 'package:qr_code/features/licence/presentation/widget/shimmer_license.dart';
-import 'package:qr_code/features/vehicle_details/presentation/cubit/vehicle_details_cubit/vehicle_details_cubit.dart';
 import '../cubit/rfr_cubit/rfr_vehicle_state.dart';
+import '../cubit/vehicle_details_cubit/vehicle_details_cubit.dart';
 import '../cubit/vehicle_details_cubit/vehicle_details_state.dart';
 
 class VehicleHeaderCard extends StatelessWidget {

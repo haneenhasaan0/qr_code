@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:qr_code/features/details/widgets/status_badge.dart';
-import 'package:qr_code/features/details/widgets/trip_card.dart';
-import 'package:qr_code/features/details/widgets/vehicle_action_bar.dart';
 import 'package:qr_code/features/details/widgets/vehicle_tab_bar.dart';
 
 class VehicleTripsScreen extends StatefulWidget {
@@ -27,7 +25,6 @@ class _VehicleTripsScreenState extends State<VehicleTripsScreen> {
     return Scaffold(
       backgroundColor: const Color(0xFFF8FAFC),
       appBar: AppBar(
-        backgroundColor: const Color(0xFF0F172A),
         elevation: 0,
         leading: IconButton(
           icon: const Icon(

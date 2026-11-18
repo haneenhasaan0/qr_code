@@ -10,19 +10,19 @@ class DeliveryAndReceiptWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 100,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16),
         gradient: LinearGradient(
           colors: [
             AppColors.greenColor.withOpacity(0.1),
-            AppColors.purpleColor.withOpacity(0.1),
+            const Color(0xFF2563EB).withOpacity(0.1),
           ],
         ),
       ),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text("🤝", style: TextStyle(fontSize: 24)),
@@ -33,7 +33,7 @@ class DeliveryAndReceiptWidget extends StatelessWidget {
               " اختار نوع المركبة وسجّل استمارة التسليم والتسلم",
               style: AppStyles.semiBold.copyWith(fontSize: 12,color: AppColors.lightGrayColor),
             ),
-            Spacer(),
+            SizedBox(height: 16),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [

@@ -1,14 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:qr_code/core/app_colors/app_colors.dart';
-import 'package:qr_code/core/app_images/app_images.dart';
-import 'package:qr_code/core/app_styles/app_styles.dart';
 import 'package:qr_code/core/services/local/shared_pref.dart';
 import 'package:qr_code/features/login/presentation/widget/alert_action.dart';
 import 'package:qr_code/features/login/presentation/widget/sign_in_screen.dart';
-import 'package:qr_code/features/login/presentation/widget/signin_view.dart';
-
 import '../../../../core/widget/snack_bar.dart';
 import '../cubit/login/login_cubit/login_cubit.dart';
 import '../cubit/login/login_state/login_state.dart';
@@ -25,7 +20,11 @@ class LoginScreen extends StatelessWidget {
           if (state is LoginLoadingState) {
             showLoadingDialog(context);
           }
-          if (state is LoginSuccessState) {
+          else if(state is LoginFailState){
+            context.pop();
+            return showToast(context, "يوجد خطأ في كلمة السر او ال ID",StateType.error);
+          }
+          else if (state is LoginSuccessState) {
             context.pop();
             final enableBiometric = await showDialog<bool>(
               context: context,
@@ -34,9 +33,12 @@ class LoginScreen extends StatelessWidget {
               },
             );
 
+            if (!context.mounted) return;
+
             if (enableBiometric == true) {
               final biometricService = BiometricService();
               final canUseBiometric = await biometricService.canUseBioMetric();
+              if (!context.mounted) return;
               if (!canUseBiometric) {
                 showToast(
                   context,
@@ -48,19 +50,14 @@ class LoginScreen extends StatelessWidget {
 
                 if (authenticated) {
                   await SharedPref.setBiometricEnabled(true);
+                  if (!context.mounted) return;
                   showToast(
                     context,
                     'تم تفعيل الدخول بالبصمة بنجاح',
                     StateType.success,
                   );
-                  context.go(
-                  '/main',
-                    extra: <String, dynamic>{
-                      'userName': state.data.userName,
-                      'code': state.data.userCode,
-                    },
-                  );
                 } else {
+                  if (!context.mounted) return;
                   showToast(
                     context,
                     'لم يتم تفعيل الدخول بالبصمة',
@@ -69,22 +66,23 @@ class LoginScreen extends StatelessWidget {
                 }
               }
             }
-            else {
-              context.go(
-                '/main',
-                extra: <String, dynamic>{
-                  'userName': state.data.userName,
-                  'code': state.data.userCode,
-                },
-              );
-            }
+
+            // المستخدم سجل دخول بنجاح، فيروح للرئيسية سواء البصمة اتفعلت ولا لأ
+            context.go(
+              '/main',
+              extra: <String, dynamic>{
+                'userName': state.data.userName,
+                'code': state.data.userCode,
+              },
+            );
           }
           if(state is LoginSecondState){
-            context.go('main', extra: <String, dynamic>{
+            context.go('/main', extra: <String, dynamic>{
               'userName': state.data.userName,
               'code': state.data.userCode,
             });
           }
+
         },
         builder: (context, state) {
           return SignInScreen();

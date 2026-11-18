@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:qr_code/features/rate/widget/rate_widget.dart';
 
-import '../../../core/app_styles/app_styles.dart';
 
 class RateScreen extends StatelessWidget {
   const RateScreen({super.key});

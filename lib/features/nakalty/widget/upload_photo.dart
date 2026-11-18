@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:qr_code/core/app_colors/app_colors.dart';
-import 'package:qr_code/core/app_styles/app_styles.dart';
 
 class UploadPhotoWidget extends StatelessWidget {
   const UploadPhotoWidget({super.key});

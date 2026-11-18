@@ -4,8 +4,6 @@ import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
 
 import '../../../../core/services/local/shared_pref.dart';
-import '../../../../core/widget/snack_bar.dart';
-import '../../../login/presentation/widget/alert_action.dart';
 import '../../../login/presentation/widget/signIn_with_finger.dart';
 import '../cubit/splash_cubit.dart';
 import '../cubit/splash_state.dart';
@@ -50,13 +48,11 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
     return BlocListener<SplashCubit, SplashState>(
       listener: (context, state) async {
         if (state is SplashFailure) {
-          // مش عامل Login
           context.go('/login');
           return;
         }
 
         if (state is SplashSuccess) {
-          // عامل Login لكن البصمة مش مفعلة
           context.go(
             '/main',
             extra: <String, dynamic>{
@@ -73,6 +69,8 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
           final canUseBiometric =
           await biometricService.canUseBioMetric();
 
+          if (!context.mounted) return;
+
           if (!canUseBiometric) {
             context.go('/login');
             return;
@@ -80,6 +78,8 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
 
           final authenticated =
           await biometricService.authenticate();
+
+          if (!context.mounted) return;
 
           if (authenticated) {
             final user = SharedPref.getUser();

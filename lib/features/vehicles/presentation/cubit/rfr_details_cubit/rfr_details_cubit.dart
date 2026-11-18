@@ -1,9 +1,11 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:qr_code/features/vehicles/data/repo/get_rfr_details_repo.dart';
-import 'package:qr_code/features/vehicles/presentation/cubit/rfr_details_state.dart';
+import 'package:qr_code/features/vehicles/presentation/cubit/rfr_details_cubit/rfr_details_state.dart';
 
 class RfrDetailsCubit extends Cubit<RfrDetailsState> {
   RfrDetailsCubit() :super (RfrDetailsInitState());
+  var formKey = GlobalKey<FormState>();
   Future<void>? getBusinessSector() async {
     try{
   emit(RfrDetailsLoadingState());

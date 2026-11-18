@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:qr_code/core/services/api_provider/api_constants.dart';
 import 'package:qr_code/core/services/api_provider/api_provider.dart';
-import 'package:qr_code/features/vehicle_details/data/model/vehicle_details_response.dart';
+import '../model/vehicle_details_response.dart';
 
 class VehicleDetailsRepo {
   static Future<VehicleDetailsResponse?> getVehicleDetails()async{

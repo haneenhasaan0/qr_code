@@ -21,7 +21,7 @@ class LoginRepo {
       SharedPref.setToken(data.accessToken);
         SharedPref.setUser(data);
         SharedPref.setLoggedIn(true);
-
+        SharedPref.setRefreshToken(data.refreshToken);
       return data;
       } else {
         return null;

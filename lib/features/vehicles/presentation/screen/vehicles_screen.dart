@@ -2,20 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_code/core/app_colors/app_colors.dart';
 import 'package:qr_code/core/provider/app_theme_provider.dart';
-import 'package:qr_code/features/details/widgets/preventative_maintenance_card.dart';
-import 'package:qr_code/features/details/widgets/specifications_grid.dart';
 import 'package:qr_code/features/details/widgets/vehicle_tab_bar.dart';
-import 'package:qr_code/features/vehicle_details/presentation/screens/vehicle_maintenance_screen.dart';
-import 'package:qr_code/features/vehicle_details/presentation/screens/vehicle_trips_screen.dart';
-import 'package:qr_code/features/vehicle_details/widget/case1.dart';
-import 'package:qr_code/features/vehicle_details/widget/case2/presentation/widget/case2.dart';
-
-import '../../vehicle_details/presentation/widget/vehicle_header_card.dart';
-import '../../vehicle_details/widget/case0.dart';
-
+import '../../../vehicle_with_rfr_details/presentation/widget/vehicle_header_card.dart';
+import '../../../vehicle_with_rfr_details/widget/case0.dart';
+import '../../../vehicle_with_rfr_details/widget/case1.dart';
+import '../widget/case2/case2.dart';
+import 'package:qr_code/features/vehicle_with_rfr_details/data/model/vehicle_details_response.dart';
 class VehiclesScreen extends StatefulWidget {
-  const VehiclesScreen({super.key,required this.plateNumber});
-  final String plateNumber;
+  const VehiclesScreen({super.key,required this.vehicle});
+  final Datum vehicle;
 
   @override
   State<VehiclesScreen> createState() => _VehiclesScreenState();
@@ -34,7 +29,9 @@ class _VehiclesScreenState extends State<VehiclesScreen> {
       case 1:
         return Case1();
       case 2:
-        return Case2();
+        return Case2(
+          vehicle: widget.vehicle,
+        );
       default:
         return const SizedBox.shrink();
     }
@@ -46,22 +43,12 @@ class _VehiclesScreenState extends State<VehiclesScreen> {
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back,
-            color: themeProvider.themeMode == ThemeMode.light
-                ? AppColors.simpleBLueColor
-                : AppColors.whiteColor,
-          ),
+          icon: const Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () => Navigator.maybePop(context),
         ),
-        title: Text(
-          'تفاصيل العربية',
-          style: Theme.of(context).textTheme.bodyLarge,
-        ),
-        centerTitle: true,
+        title: const Text('تفاصيل العربية'),
       ),
       body: Column(
         children: [

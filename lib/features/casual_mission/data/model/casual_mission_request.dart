@@ -1,31 +1,64 @@
-/// YApi QuickType插件生成，具体参考文档:https://plugins.jetbrains.com/plugin/18847-yapi-quicktype/documentation
-
 import 'dart:convert';
 
-CasualMissiomRequest casualMissiomRequestFromJson(String str) => CasualMissiomRequest.fromJson(json.decode(str));
+class CasualMissionRequest {
+    final DateTime fromDate;
+    final DateTime toDate;
+    final int businessSectorId;
+    final List<CasualMissionItem> casualMissionJson;
 
-String casualMissiomRequestToJson(CasualMissiomRequest data) => json.encode(data.toJson());
-
-class CasualMissiomRequest {
-    CasualMissiomRequest({
+    CasualMissionRequest({
         required this.fromDate,
         required this.toDate,
         required this.businessSectorId,
+        required this.casualMissionJson,
     });
 
-    DateTime fromDate;
-    DateTime toDate;
-    int businessSectorId;
-
-    factory CasualMissiomRequest.fromJson(Map<dynamic, dynamic> json) => CasualMissiomRequest(
-        fromDate: DateTime.parse(json["FromDate"]),
-        toDate: DateTime.parse(json["ToDate"]),
-        businessSectorId: json["BusinessSectorId"],
-    );
-
-    Map<dynamic, dynamic> toJson() => {
-        "FromDate": "${fromDate.year.toString().padLeft(4, '0')}-${fromDate.month.toString().padLeft(2, '0')}-${fromDate.day.toString().padLeft(2, '0')}",
-        "ToDate": "${toDate.year.toString().padLeft(4, '0')}-${toDate.month.toString().padLeft(2, '0')}-${toDate.day.toString().padLeft(2, '0')}",
+    Map<String, dynamic> toJson() => {
+        "FromDate": fromDate.toIso8601String(),
+        "ToDate": toDate.toIso8601String(),
         "BusinessSectorId": businessSectorId,
+        "CasualMissionJson": jsonEncode(
+            casualMissionJson.map((e) => e.toJson()).toList(),
+        ),
+    };
+}
+
+class CasualMissionItem {
+    final int id;
+    final int? driverId;
+    final int? businessSectorId;
+    final int? vehicleId;
+    final int? casualMissionTypeId;
+    final String notes;
+    final int days;
+    final num value;
+    final num totalValue;
+    final DateTime casualMissionDate;
+
+
+    CasualMissionItem({
+        required this.id,
+        this.driverId,
+        this.businessSectorId,
+        this.vehicleId,
+        this.casualMissionTypeId,
+        required this.notes,
+        required this.days,
+        required this.value,
+        required this.totalValue,
+        required this.casualMissionDate,
+    });
+
+    Map<String, dynamic> toJson() => {
+        "Id": id,
+        "DriverID": driverId,
+        "BusinessSectorID": businessSectorId,
+        "VehicleID": vehicleId,
+        "CasualMissionTypeID": casualMissionTypeId,
+        "Notes": notes,
+        "Days": days,
+        "Value": value,
+        "TotalValue": totalValue,
+        "CasualMissionDate": casualMissionDate.toIso8601String(),
     };
 }

@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:qr_code/core/app_colors/app_colors.dart';
 import 'package:qr_code/core/app_styles/app_styles.dart';
-import 'package:qr_code/core/provider/app_theme_provider.dart';
 
 class CustomContainer extends StatelessWidget {
   const CustomContainer({
@@ -22,59 +19,47 @@ class CustomContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var themeProvider = Provider.of<AppThemeProvider>(context);
     return Container(
+      clipBehavior: Clip.antiAlias,
       decoration: BoxDecoration(
-        color: themeProvider.themeMode==ThemeMode.dark? AppColors.darkBlueColor:AppColors.whiteColor,
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: [
-          BoxShadow(
-            color: themeProvider.themeMode==ThemeMode.dark? Colors.black:AppColors.whiteColor,
-            spreadRadius: 3,
-            blurRadius: 20,
-            offset: Offset(0, 4),
-          ),
-        ],
+        gradient: LinearGradient(
+          colors: [color, Color.lerp(color, Colors.black, 0.35)!],
+          begin: Alignment.topRight,
+          end: Alignment.bottomLeft,
+        ),
+        borderRadius: BorderRadius.circular(18),
+        boxShadow: [BoxShadow(color: color.withValues(alpha: 0.4), blurRadius: 14, offset: const Offset(0, 6))],
       ),
-      child: Padding(
-        padding: const EdgeInsets.all(12.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
+      child: Stack(
+        children: [
+          // أيقونة كبيرة باهتة للزينة
+          Positioned(
+            left: -10,
+            bottom: -10,
+            child: Icon(icon, size: 72, color: Colors.white.withValues(alpha: 0.15)),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(14),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Container(
-                  decoration: BoxDecoration(
-                    color: color.withOpacity(0.25),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(4.0),
-                    child: Icon(icon, color: iconColor, size: 12),
-                  ),
+                Row(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(6),
+                      decoration: BoxDecoration(color: Colors.white.withValues(alpha: 0.25), shape: BoxShape.circle),
+                      child: Icon(icon, color: Colors.white, size: 16),
+                    ),
+                    const SizedBox(width: 8),
+                    Expanded(child: Text(text1, style: AppStyles.semiBold.copyWith(fontSize: 12))),
+                  ],
                 ),
-                SizedBox(width: 8),
-                Text(
-                  text1,
-                  style: AppStyles.semiBold.copyWith(
-                    color: themeProvider.themeMode == ThemeMode.dark
-                        ? Colors.white
-                        : AppColors.darkBlueColor,
-                  ),
-                ),
+                const SizedBox(height: 14),
+                Text(text2, style: AppStyles.bold.copyWith(fontSize: 20)),
               ],
             ),
-            SizedBox(height: 8),
-            Text(
-              text2,
-              style: AppStyles.bold.copyWith(
-                color: themeProvider.themeMode == ThemeMode.dark
-                    ? AppColors.whiteColor
-                    : AppColors.darkBlueColor,
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
